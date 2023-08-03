@@ -52,50 +52,56 @@ namespace indicator
                 {
                     if (Tokens.AllTokens.TryGetValue("hitErrors", out var hitErrorsToken) && hitErrorsToken.Value is List<int> hitErrors)
                     {
-                        int lastHitError = hitErrors.LastOrDefault();
-                        string indicatorValue;
+                        // Get the length or count of hitErrors list
+                        int hitErrorsCount = hitErrors.Count;
 
-                        if (lastHitError >= -16.5 && lastHitError <= 16.5)
+                        // Only proceed if there are new hitErrors to process
+                        if (hitErrorsCount > hitErrorCount)
                         {
-                            indicatorValue = "";
-                            perfectCount++;
-                        }
-                        else if (lastHitError > 16.5)
-                        {
-                            indicatorValue = "LATE+";
-                            lateCount++;
-                        }
-                        else if (lastHitError < 16.5)
-                        {
-                            indicatorValue = "EARLY-";
-                            earlyCount++;
-                        }
-                        else
-                        {
-                            // Handle other cases or set a default value if needed
-                            indicatorValue = "Unknown";
-                        }
+                            // Process new hitErrors from hitErrorCount to the latest hitError
+                            for (int i = hitErrorCount; i < hitErrorsCount; i++)
+                            {
+                                int lastHitError = hitErrors[i];
+                                string indicatorValue;
 
-                        // Calculate average hit error
-                        hitErrorSum += lastHitError;
-                        hitErrorCount++;
-                        double averageHitError = (double)hitErrorSum / hitErrorCount;
+                                if (lastHitError >= -16.5 && lastHitError <= 16.5)
+                                {
+                                    indicatorValue = "";
+                                    perfectCount++;
+                                }
+                                else if (lastHitError > 16.5)
+                                {
+                                    indicatorValue = "LATE+";
+                                    lateCount++;
+                                }
+                                else if (lastHitError < 16.5)
+                                {
+                                    indicatorValue = "EARLY-";
+                                    earlyCount++;
+                                }
+                                else
+                                {
+                                    // Handle other cases or set a default value if needed
+                                    indicatorValue = "Unknown";
+                                }
 
-                        // Update "indicator" token with the average hit error value
-                        tokenSetter("indicator", $"{indicatorValue}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                        tokenSetter("averageHitErrors", $"{averageHitError:F2}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                        tokenSetter("earlyCount", $"{earlyCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                        tokenSetter("lateCount", $"{lateCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                        tokenSetter("perfectCount", $"{perfectCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                        Logger.Log(lastHitError, LogLevel.Trace);
+                                // Calculate average hit error
+                                hitErrorSum += lastHitError;
+                                hitErrorCount++;
+                                double averageHitError = (double)hitErrorSum / hitErrorCount;
+
+                                // Update "indicator" token with the average hit error value
+                                tokenSetter("indicator", $"{indicatorValue}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("averageHitErrors", $"{averageHitError:F2}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("earlyCount", $"{earlyCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("perfectCount", $"{perfectCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("lateCount", $"{lateCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                Logger.Log(lastHitError, LogLevel.Trace);
+                            }
+                        }
                     }
-
-                    // Delay for a short duration before checking again to avoid tight loop
-                    // You may adjust the delay interval based on your application's requirements
-                    Thread.Sleep(100);
                 }
             }, cancellationToken);
-
             return Task.CompletedTask;
         }
         public Task SetNewMapAsync(IMapSearchResult map, CancellationToken cancellationToken)
