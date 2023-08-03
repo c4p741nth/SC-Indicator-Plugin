@@ -36,6 +36,10 @@ namespace indicator
             // don't: execute actions based on token values from other plugins
 
             tokenSetter("indicator", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+            tokenSetter("averageHitErrors", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+            tokenSetter("earlyCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+            tokenSetter("perfectCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+            tokenSetter("lateCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
             Settings.Add(lastMapConfigEntry.Name, map.MapSearchString);
             Logger.Log("CreateTokensAsync", LogLevel.Trace);
 
@@ -93,9 +97,9 @@ namespace indicator
                                 // Update "indicator" token with the average hit error value
                                 tokenSetter("indicator", $"{indicatorValue}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
                                 tokenSetter("averageHitErrors", $"{averageHitError:F2}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("earlyCount", $"{earlyCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("perfectCount", $"{perfectCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("lateCount", $"{lateCount}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("earlyCount", earlyCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("perfectCount", perfectCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+                                tokenSetter("lateCount", lateCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
                                 Logger.Log(lastHitError, LogLevel.Trace);
                             }
                         }
