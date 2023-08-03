@@ -21,7 +21,10 @@ namespace indicator
         private ISettings Settings;
         private ILogger Logger;
         private Tokens.TokenSetter tokenSetter;
+        private CancellationTokenSource tokenUpdateCancellationTokenSource;
+
         public static ConfigEntry lastMapConfigEntry = new ConfigEntry("Indicator", "defaultValue");
+
         public IndicatorPlugin(ISettings settings, ILogger logger)
         {
             Settings = settings;
@@ -29,12 +32,14 @@ namespace indicator
             tokenSetter = Tokens.CreateTokenSetter("IndicatorPlugin");
             Logger.Log(settings.Get<string>(lastMapConfigEntry), LogLevel.Trace);
         }
+
         public Task CreateTokensAsync(IMapSearchResult map, CancellationToken cancellationToken)
         {
-            // do: update token values
-            // do: execute actions based on map search results
-            // don't: execute actions based on token values from other plugins
+            // Clear any existing token update tasks if they exist
+            tokenUpdateCancellationTokenSource?.Cancel();
+            tokenUpdateCancellationTokenSource = new CancellationTokenSource();
 
+            // Initialize token values
             tokenSetter("indicator", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
             tokenSetter("averageHitErrors", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
             tokenSetter("earlyCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
@@ -43,16 +48,16 @@ namespace indicator
             Settings.Add(lastMapConfigEntry.Name, map.MapSearchString);
             Logger.Log("CreateTokensAsync", LogLevel.Trace);
 
-            int hitErrorSum = 0;
-            int hitErrorCount = 0;
-            int earlyCount = 0;
-            int lateCount = 0;
-            int perfectCount = 0;
-
-            // Start a new task to continuously update the "indicator" token based on hitErrors
+            // Start a new task to update the "indicator" token based on hitErrors
             Task.Run(() =>
             {
-                while (!cancellationToken.IsCancellationRequested)
+                int hitErrorSum = 0;
+                int hitErrorCount = 0;
+                int earlyCount = 0;
+                int lateCount = 0;
+                int perfectCount = 0;
+
+                while (!tokenUpdateCancellationTokenSource.Token.IsCancellationRequested)
                 {
                     if (Tokens.AllTokens.TryGetValue("hitErrors", out var hitErrorsToken) && hitErrorsToken.Value is List<int> hitErrors)
                     {
@@ -105,13 +110,15 @@ namespace indicator
                         }
                     }
                 }
-            }, cancellationToken);
+            }, tokenUpdateCancellationTokenSource.Token);
+
             return Task.CompletedTask;
         }
+
         public Task SetNewMapAsync(IMapSearchResult map, CancellationToken cancellationToken)
         {
-            //do: execute actions based on token values
-            //don't: update token values(unless these are live)
+            // Do: execute actions based on token values
+            // Don't: update token values (unless these are live)
 
             if (map.PlayMode == CollectionManager.Enums.PlayMode.Osu && map.BeatmapsFound.Count > 0)
             {
