@@ -15,17 +15,3 @@ C:\Users\promp\OneDrive\เดสก์ท็อป\ready\indicator\obj\Debug\in
 C:\Users\promp\OneDrive\เดสก์ท็อป\ready\indicator\obj\Debug\refint\indicator.dll
 C:\Users\promp\OneDrive\เดสก์ท็อป\ready\indicator\obj\Debug\indicator.pdb
 C:\Users\promp\OneDrive\เดสก์ท็อป\ready\indicator\obj\Debug\ref\indicator.dll
-D:\ready\SCInstall\Plugins\indicator.deps.json
-D:\ready\SCInstall\Plugins\indicator.dll
-D:\ready\SCInstall\Plugins\indicator.pdb
-D:\ready\indicator\obj\Debug\indicator.csproj.AssemblyReference.cache
-D:\ready\indicator\obj\Debug\indicator.SettingsUserControl.resources
-D:\ready\indicator\obj\Debug\indicator.csproj.GenerateResource.cache
-D:\ready\indicator\obj\Debug\indicator.GeneratedMSBuildEditorConfig.editorconfig
-D:\ready\indicator\obj\Debug\indicator.AssemblyInfoInputs.cache
-D:\ready\indicator\obj\Debug\indicator.AssemblyInfo.cs
-D:\ready\indicator\obj\Debug\indicator.csproj.CoreCompileInputs.cache
-D:\ready\indicator\obj\Debug\indicator.dll
-D:\ready\indicator\obj\Debug\refint\indicator.dll
-D:\ready\indicator\obj\Debug\indicator.pdb
-D:\ready\indicator\obj\Debug\ref\indicator.dll
