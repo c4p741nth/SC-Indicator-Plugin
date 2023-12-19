@@ -1,30 +1,33 @@
-﻿using StreamCompanionTypes.DataTypes;
+﻿using StreamCompanionTypes.Interfaces;
 using StreamCompanionTypes.Enums;
-using StreamCompanionTypes.Interfaces;
-using StreamCompanionTypes.Interfaces.Consumers;
 using StreamCompanionTypes.Interfaces.Services;
-using StreamCompanionTypes.Interfaces.Sources;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+using ILogger = StreamCompanionTypes.Interfaces.Services.ILogger;
+using StreamCompanionTypes.DataTypes;
 using System.Threading.Tasks;
+using System.Threading;
+using System.Collections.Generic;
+using StreamCompanionTypes.Interfaces.Sources;
+using StreamCompanionTypes.Attributes;
+using StreamCompanionTypes.Interfaces.Consumers;
+using indicator;
 
-namespace indicator
+namespace Indicator
 {
-    public class IndicatorPlugin : IPlugin, ITokensSource, IMapDataConsumer
+    [SCPluginDependency("OsuMemoryEventSource", "1.0.0")]
+    [SCPlugin("Indicator", "EARLY/LATE in-game overlay", "C4P741N", "https://github.com/c4p741nth")]
+    public class IndicatorPlugin : IPlugin, ISettingsSource, ITokensSource, IMapDataConsumer
     {
         public string Description => "This is EARLY/LATE in-game overlay";
         public string Name => "Indicator Plugin";
         public string Author => "C4P741N";
         public string Url => "github.com/c4p741nth";
-
+        public string SettingGroup => "IndicatorPluginGroup";
+        private SettingsUserControl SettingsUserControl;
         private ISettings Settings;
         private ILogger Logger;
         private Tokens.TokenSetter tokenSetter;
         private CancellationTokenSource tokenUpdateCancellationTokenSource;
-
-        public static ConfigEntry lastMapConfigEntry = new ConfigEntry("Indicator", "defaultValue");
-
+        public static ConfigEntry lastMapConfigEntry = new ConfigEntry("IndicatorPluginConfig", "defaultValue");
         public IndicatorPlugin(ISettings settings, ILogger logger)
         {
             Settings = settings;
@@ -32,7 +35,17 @@ namespace indicator
             tokenSetter = Tokens.CreateTokenSetter("IndicatorPlugin");
             Logger.Log(settings.Get<string>(lastMapConfigEntry), LogLevel.Trace);
         }
+        public void Free()
+        {
+            SettingsUserControl?.Dispose();
+        }
+        public object GetUiSettings()
+        {
+            if (SettingsUserControl == null || SettingsUserControl.IsDisposed)
+                SettingsUserControl = new SettingsUserControl();
 
+            return SettingsUserControl;
+        }
         public Task CreateTokensAsync(IMapSearchResult map, CancellationToken cancellationToken)
         {
             // Clear any existing token update tasks if they exist
@@ -117,8 +130,6 @@ namespace indicator
 
             return Task.CompletedTask;
         }
-
-
 
         public Task SetNewMapAsync(IMapSearchResult map, CancellationToken cancellationToken)
         {

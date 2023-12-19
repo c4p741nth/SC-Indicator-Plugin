@@ -91,7 +91,7 @@
           }
         }
       },
-      "Newtonsoft.Json/13.0.2": {
+      "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
           "lib/net6.0/Newtonsoft.Json.dll": {
@@ -104,7 +104,7 @@
           }
         }
       },
-      "OsuMemoryDataProvider/0.10.0": {
+      "OsuMemoryDataProvider/0.10.3": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -143,20 +143,24 @@
           "lib/netstandard2.0/SharpCompress.dll": {}
         }
       },
-      "StreamCompanionTypes/8.1.2": {
+      "StreamCompanionTypes/9.0.0": {
         "type": "package",
         "dependencies": {
           "CollectionManager": "1.0.8",
           "Jace": "1.0.0",
-          "Newtonsoft.Json": "13.0.2",
+          "Newtonsoft.Json": "13.0.3",
           "System.ComponentModel.Annotations": "5.0.0",
           "System.Drawing.Common": "7.0.0"
         },
         "compile": {
-          "lib/netstandard2.1/StreamCompanionTypes.dll": {}
+          "lib/netstandard2.1/StreamCompanionTypes.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.1/StreamCompanionTypes.dll": {}
+          "lib/netstandard2.1/StreamCompanionTypes.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.ComponentModel.Annotations/5.0.0": {
@@ -484,10 +488,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Newtonsoft.Json/13.0.2": {
-      "sha512": "R2pZ3B0UjeyHShm9vG+Tu0EBb2lC8b0dFzV9gVn50ofHXh9Smjk6kTn7A/FdAsC8B5cKib1OnGYOXxRBz5XQDg==",
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
-      "path": "newtonsoft.json/13.0.2",
+      "path": "newtonsoft.json/13.0.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -509,15 +513,15 @@
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.2.nupkg.sha512",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
     },
-    "OsuMemoryDataProvider/0.10.0": {
-      "sha512": "RAYxNiJY6f62Qm6E8aU60rMOFxFQ/8NHe/Z6Nf1Cdob3JLPBODYuTWjCWFNfaHptNH5T5uFjPKg1TNI6xTjc2w==",
+    "OsuMemoryDataProvider/0.10.3": {
+      "sha512": "HNi8OwMXzHJlfDOoPIrLSOd/UpU6q7JqDqbCDxuegyLV7Jn7mMzLbNGox8s/3cKwfY3kiqC1ZTaNnjr9zL0H8Q==",
       "type": "package",
-      "path": "osumemorydataprovider/0.10.0",
+      "path": "osumemorydataprovider/0.10.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -525,7 +529,7 @@
         "lib/net472/OsuMemoryDataProvider.dll",
         "lib/net5.0/OsuMemoryDataProvider.dll",
         "lib/netcoreapp3.1/OsuMemoryDataProvider.dll",
-        "osumemorydataprovider.0.10.0.nupkg.sha512",
+        "osumemorydataprovider.0.10.3.nupkg.sha512",
         "osumemorydataprovider.nuspec"
       ]
     },
@@ -560,15 +564,16 @@
         "sharpcompress.nuspec"
       ]
     },
-    "StreamCompanionTypes/8.1.2": {
-      "sha512": "RA7asOSGBkAeWji5Vyd4lAFPx31+GJ+vSXBuw+gVvEKsq2+8OQCFkNjMSLH121Dh0sn1X0k4x3bkKzdveerGKQ==",
+    "StreamCompanionTypes/9.0.0": {
+      "sha512": "HP6fPT+Xfn+eVTkZxIIYo9GoVDIv6CnCsbU1TOXqfrzG8hru63jcGB4cK5OvcMWUT+zkAHEiSxL6cf1eCA00Hw==",
       "type": "package",
-      "path": "streamcompaniontypes/8.1.2",
+      "path": "streamcompaniontypes/9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "lib/netstandard2.1/StreamCompanionTypes.dll",
-        "streamcompaniontypes.8.1.2.nupkg.sha512",
+        "lib/netstandard2.1/StreamCompanionTypes.xml",
+        "streamcompaniontypes.9.0.0.nupkg.sha512",
         "streamcompaniontypes.nuspec"
       ]
     },
@@ -894,8 +899,8 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "OsuMemoryDataProvider >= 0.10.0",
-      "StreamCompanionTypes >= 8.1.2",
+      "OsuMemoryDataProvider >= 0.10.3",
+      "StreamCompanionTypes >= 9.0.0",
       "System.Reactive >= 6.0.0"
     ]
   },
@@ -906,11 +911,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ready\\indicator\\indicator.csproj",
+      "projectUniqueName": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj",
       "projectName": "indicator",
-      "projectPath": "D:\\ready\\indicator\\indicator.csproj",
+      "projectPath": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj",
       "packagesPath": "C:\\Users\\promp\\.nuget\\packages\\",
-      "outputPath": "D:\\ready\\indicator\\obj\\",
+      "outputPath": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -946,11 +951,11 @@
         "dependencies": {
           "OsuMemoryDataProvider": {
             "target": "Package",
-            "version": "[0.10.0, )"
+            "version": "[0.10.3, )"
           },
           "StreamCompanionTypes": {
             "target": "Package",
-            "version": "[8.1.2, )"
+            "version": "[9.0.0, )"
           },
           "System.Reactive": {
             "target": "Package",
@@ -976,7 +981,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

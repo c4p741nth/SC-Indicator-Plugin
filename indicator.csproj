@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OsuMemoryDataProvider" Version="0.10.0" />
-    <PackageReference Include="StreamCompanionTypes" Version="8.1.2" />
+    <PackageReference Include="OsuMemoryDataProvider" Version="0.10.3" />
+    <PackageReference Include="StreamCompanionTypes" Version="9.0.0" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>
 
