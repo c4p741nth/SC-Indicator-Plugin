@@ -2,16 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>Indicator</RootNamespace>
     <Nullable>enable</Nullable>
-	<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-	<UseWindowsForms>true</UseWindowsForms>
-	<OutputPath>..\SCInstall\Plugins\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\SCInstall\Plugins\</OutputPath>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
+    <ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OsuMemoryDataProvider" Version="0.10.3" />
     <PackageReference Include="StreamCompanionTypes" Version="9.0.0" />
-    <PackageReference Include="System.Reactive" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

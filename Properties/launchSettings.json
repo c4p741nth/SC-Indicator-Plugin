@@ -1,8 +1,8 @@
 {
-  "profiles": {
-    "indicator": {
-      "commandName": "Executable",
-      "executablePath": "..\\osu!StreamCompanion.exe"
+    "profiles": {
+        "indicator": {
+            "commandName": "Executable",
+            "executablePath": "..\\osu!StreamCompanion.exe"
+        }
     }
-  }
 }

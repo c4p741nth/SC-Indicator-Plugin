@@ -1,0 +1,15 @@
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SCInstall\Plugins\SC-Indicator-Plugin.deps.json
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SCInstall\Plugins\SC-Indicator-Plugin.dll
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SCInstall\Plugins\SC-Indicator-Plugin.pdb
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.csproj.AssemblyReference.cache
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.AssemblyInfoInputs.cache
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.AssemblyInfo.cs
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.csproj.CoreCompileInputs.cache
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.sourcelink.json
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.dll
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.pdb
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC_Indicator_Plugin.SettingsUserControl.resources
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\SC-Indicator-Plugin.csproj.GenerateResource.cache
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\refint\SC-Indicator-Plugin.dll
+C:\Users\promp\OneDrive\Desktop\Indicator-dev\SC-Indicator-Plugin\obj\Debug\ref\SC-Indicator-Plugin.dll

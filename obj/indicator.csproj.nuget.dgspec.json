@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj": {}
+    "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\Indicator.csproj": {}
   },
   "projects": {
-    "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj": {
+    "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\Indicator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj",
-        "projectName": "indicator",
-        "projectPath": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj",
+        "projectUniqueName": "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\Indicator.csproj",
+        "projectName": "Indicator",
+        "projectPath": "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\Indicator.csproj",
         "packagesPath": "C:\\Users\\promp\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\obj\\",
+        "outputPath": "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -39,23 +39,20 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "dependencies": {
-            "OsuMemoryDataProvider": {
-              "target": "Package",
-              "version": "[0.10.3, )"
-            },
             "StreamCompanionTypes": {
               "target": "Package",
               "version": "[9.0.0, )"
-            },
-            "System.Reactive": {
-              "target": "Package",
-              "version": "[6.0.0, )"
             }
           },
           "imports": [
@@ -77,7 +74,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
         }
       }
     }

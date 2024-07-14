@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("indicator")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Indicator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de7cda6ff51bbbe3981c6f94d41e26b6d6656698")]
-[assembly: System.Reflection.AssemblyProductAttribute("indicator")]
-[assembly: System.Reflection.AssemblyTitleAttribute("indicator")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f65ecbbdfcba6c5db2f00cdfbd6a3652a3c9eca")]
+[assembly: System.Reflection.AssemblyProductAttribute("Indicator")]
+[assembly: System.Reflection.AssemblyTitleAttribute("Indicator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]

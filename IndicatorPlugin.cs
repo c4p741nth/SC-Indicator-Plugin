@@ -1,149 +1,214 @@
-﻿using StreamCompanionTypes.Interfaces;
-using StreamCompanionTypes.Enums;
-using StreamCompanionTypes.Interfaces.Services;
-using ILogger = StreamCompanionTypes.Interfaces.Services.ILogger;
-using StreamCompanionTypes.DataTypes;
-using System.Threading.Tasks;
-using System.Threading;
+﻿using System;
 using System.Collections.Generic;
-using StreamCompanionTypes.Interfaces.Sources;
+using System.Threading;
+using System.Threading.Tasks;
 using StreamCompanionTypes.Attributes;
-using StreamCompanionTypes.Interfaces.Consumers;
-using indicator;
+using StreamCompanionTypes.DataTypes;
+using StreamCompanionTypes.Enums;
+using StreamCompanionTypes.Interfaces;
+using StreamCompanionTypes.Interfaces.Services;
+using StreamCompanionTypes.Interfaces.Sources;
 
 namespace Indicator
 {
     [SCPluginDependency("OsuMemoryEventSource", "1.0.0")]
-    [SCPlugin("Indicator", "EARLY/LATE in-game overlay", "C4P741N", "https://github.com/c4p741nth")]
-    public class IndicatorPlugin : IPlugin, ISettingsSource, ITokensSource, IMapDataConsumer
+    [SCPlugin("Judgement Indicator", "Shows Early/Late in-game overlay", "C4P741N", "https://github.com/c4p741nth/SC-Indicator-Plugin")]
+    public class IndicatorPlugin : IPlugin, ISettingsSource, ITokensSource
     {
-        public string Description => "This is EARLY/LATE in-game overlay";
-        public string Name => "Indicator Plugin";
-        public string Author => "C4P741N";
-        public string Url => "github.com/c4p741nth";
-        public string SettingGroup => "IndicatorPluginGroup";
-        private SettingsUserControl SettingsUserControl;
-        private ISettings Settings;
-        private ILogger Logger;
-        private Tokens.TokenSetter tokenSetter;
-        private CancellationTokenSource tokenUpdateCancellationTokenSource;
-        public static ConfigEntry lastMapConfigEntry = new ConfigEntry("IndicatorPluginConfig", "defaultValue");
+        public string SettingGroup => "Judgement Indicator Setting";
+        private SettingsUserControl? SettingsUserControl;
+
+        private readonly ISettings Settings;
+        private readonly ILogger Logger;
+        private readonly Tokens.TokenSetter tokenSetter;
+        private CancellationTokenSource? tokenUpdateCancellationTokenSource;
+        public static ConfigEntry lastMapConfigEntry = new ConfigEntry("IndicatorConfig", "defaultValue");
+
+        private int hitErrorSum;
+        private int hitErrorCount;
+        private int earlyCount;
+        private int lateCount;
+        private int perfectCount;
+        private double perfectThreshold;
+
         public IndicatorPlugin(ISettings settings, ILogger logger)
         {
             Settings = settings;
             Logger = logger;
             tokenSetter = Tokens.CreateTokenSetter("IndicatorPlugin");
             Logger.Log(settings.Get<string>(lastMapConfigEntry), LogLevel.Trace);
+            perfectThreshold = GetPerfectThreshold();
         }
+
         public void Free()
         {
             SettingsUserControl?.Dispose();
         }
+
         public object GetUiSettings()
         {
             if (SettingsUserControl == null || SettingsUserControl.IsDisposed)
+            {
                 SettingsUserControl = new SettingsUserControl();
-
+            }
             return SettingsUserControl;
         }
+
         public Task CreateTokensAsync(IMapSearchResult map, CancellationToken cancellationToken)
         {
-            // Clear any existing token update tasks if they exist
             tokenUpdateCancellationTokenSource?.Cancel();
             tokenUpdateCancellationTokenSource = new CancellationTokenSource();
 
-            // Initialize token values
-            tokenSetter("indicator", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-            tokenSetter("averageHitErrors", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-            tokenSetter("earlyCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-            tokenSetter("perfectCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-            tokenSetter("lateCount", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
+            InitializeTokens();
+
             Settings.Add(lastMapConfigEntry.Name, map.MapSearchString);
             Logger.Log("CreateTokensAsync", LogLevel.Trace);
 
-            // Start a new task to update the "indicator" token based on hitErrors
-            Task.Run(async () =>
-            {
-                int hitErrorSum = 0;
-                int hitErrorCount = 0;
-                int earlyCount = 0;
-                int lateCount = 0;
-                int perfectCount = 0;
-
-                while (!tokenUpdateCancellationTokenSource.Token.IsCancellationRequested)
-                {
-                    if (Tokens.AllTokens.TryGetValue("hitErrors", out var hitErrorsToken) && hitErrorsToken.Value is List<int> hitErrors)
-                    {
-                        // Get the length or count of hitErrors list
-                        int hitErrorsCount = hitErrors.Count;
-
-                        // Only proceed if there are new hitErrors to process
-                        if (hitErrorsCount > hitErrorCount)
-                        {
-                            // Process new hitErrors from hitErrorCount to the latest hitError
-                            for (int i = hitErrorCount; i < hitErrorsCount; i++)
-                            {
-                                int lastHitError = hitErrors[i];
-                                string indicatorValue;
-
-                                if (lastHitError >= -16.5 && lastHitError <= 16.5)
-                                {
-                                    indicatorValue = "";
-                                    perfectCount++;
-                                }
-                                else if (lastHitError > 16.5)
-                                {
-                                    indicatorValue = "LATE+";
-                                    lateCount++;
-                                }
-                                else if (lastHitError < -16.5)
-                                {
-                                    indicatorValue = "EARLY-";
-                                    earlyCount++;
-                                }
-                                else
-                                {
-                                    // Handle other cases or set a default value if needed
-                                    indicatorValue = "Unknown";
-                                }
-
-                                // Calculate average hit error incrementally
-                                hitErrorSum += lastHitError;
-                                hitErrorCount++;
-                                double averageHitError = (double)hitErrorSum / hitErrorCount;
-
-                                // Update "indicator" token with the average hit error value
-                                tokenSetter("indicator", $"{indicatorValue}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("averageHitErrors", $"{averageHitError:F2}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("earlyCount", earlyCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("perfectCount", perfectCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                tokenSetter("lateCount", lateCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching);
-                                Logger.Log(lastHitError, LogLevel.Trace);
-                            }
-                        }
-                    }
-
-                    // Introduce a small delay to reduce CPU usage
-                    await Task.Delay(1);
-                }
-            }, tokenUpdateCancellationTokenSource.Token);
+            Tokens.AllTokens["hitErrors"].ValueUpdated += OnHitErrorsChanged;
+            Tokens.AllTokens["status"].ValueUpdated += OnStatusChanged;
 
             return Task.CompletedTask;
         }
 
-        public Task SetNewMapAsync(IMapSearchResult map, CancellationToken cancellationToken)
+        private void OnStatusChanged(object? sender, IToken e)
         {
-            // Do: execute actions based on token values
-            // Don't: update token values (unless these are live)
-
-            if (map.PlayMode == CollectionManager.Enums.PlayMode.Osu && map.BeatmapsFound.Count > 0)
+            if (e.Value is OsuStatus status)
             {
-                var beatmap = map.BeatmapsFound[0];
-                var starRating = (double)Tokens.AllTokens["mStars"].Value;
+                if (status == OsuStatus.Playing || status == OsuStatus.Watching)
+                {
+                    ResetValues();
+                }
+                else if (status == OsuStatus.ResultsScreen)
+                {
+                    FreezeValues();
+                }
+            }
+        }
+
+        private void InitializeTokens()
+        {
+            var tokenNames = new[] { "averageHitErrors", "earlyCount", "perfectCount", "lateCount", "earlyMs", "lateMs", "indicatorEarly", "indicatorLate" };
+            foreach (var tokenName in tokenNames)
+            {
+                tokenSetter(tokenName, "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            }
+        }
+
+        private void OnHitErrorsChanged(object? sender, IToken e)
+        {
+            if (e.Value is List<int> hitErrors)
+            {
+                ProcessHitErrors(hitErrors);
+            }
+            else if (hitErrorCount > 0)
+            {
+                FreezeValues();
+            }
+            else
+            {
+                ResetValues();
+            }
+        }
+
+        private void ProcessHitErrors(List<int> hitErrors)
+        {
+            for (int i = hitErrorCount; i < hitErrors.Count; i++)
+            {
+                int hitError = hitErrors[i];
+                string indicatorValue = GetIndicatorValue(hitError, perfectThreshold, ref earlyCount, ref lateCount, ref perfectCount);
+
+                hitErrorSum += hitError;
+                hitErrorCount++;
+                double averageHitError = (double)hitErrorSum / hitErrorCount;
+
+                UpdateTokenValues(averageHitError, earlyCount, perfectCount, lateCount, hitError);
+                Logger.Log($"Processed hit error: {hitError}, Indicator: {indicatorValue}, Average Hit Error: {averageHitError:F2}", LogLevel.Trace);
+            }
+        }
+
+        private static double GetPerfectThreshold()
+        {
+            double threshold = 16.5;
+
+            if (Tokens.AllTokens.TryGetValue("mods", out var modsToken) && modsToken.Value is string mods)
+            {
+                if (mods.Contains("EZ"))
+                {
+                    threshold = 22.5;
+                }
+                else if (mods.Contains("HR"))
+                {
+                    threshold = 11.5;
+                }
             }
 
-            Logger.Log("SetNewMapAsync", LogLevel.Trace);
-            return Task.CompletedTask;
+            return threshold;
+        }
+
+        private static string GetIndicatorValue(int hitError, double threshold, ref int earlyCount, ref int lateCount, ref int perfectCount)
+        {
+            if (hitError >= -threshold && hitError <= threshold)
+            {
+                perfectCount++;
+                return "";
+            }
+            else if (hitError > threshold)
+            {
+                lateCount++;
+                return "LATE";
+            }
+            else if (hitError < -threshold)
+            {
+                earlyCount++;
+                return "EARLY";
+            }
+            else
+            {
+                return "Unknown";
+            }
+        }
+
+        private void UpdateTokenValues(double averageHitError, int earlyCount, int perfectCount, int lateCount, int hitError)
+        {
+            tokenSetter("averageHitErrors", $"{averageHitError:F2}", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("earlyCount", earlyCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("perfectCount", perfectCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("lateCount", lateCount, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+
+            string earlyMs = "", lateMs = "", indicatorEarly = "", indicatorLate = "";
+            if (Math.Abs(hitError) > perfectThreshold)
+            {
+                if (hitError < 0)
+                {
+                    earlyMs = $"-{-hitError} ms";
+                    indicatorEarly = "EARLY";
+                }
+                else
+                {
+                    lateMs = $"+{hitError} ms";
+                    indicatorLate = "LATE";
+                }
+            }
+
+            tokenSetter("earlyMs", earlyMs, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("lateMs", lateMs, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("indicatorEarly", indicatorEarly, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("indicatorLate", indicatorLate, TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+        }
+
+        private void ResetValues()
+        {
+            hitErrorSum = 0;
+            hitErrorCount = 0;
+            earlyCount = 0;
+            lateCount = 0;
+            perfectCount = 0;
+            UpdateTokenValues(0, 0, 0, 0, 0);
+        }
+
+        private void FreezeValues()
+        {
+            UpdateTokenValues((double)hitErrorSum / hitErrorCount, earlyCount, perfectCount, lateCount, 0);
         }
     }
 }

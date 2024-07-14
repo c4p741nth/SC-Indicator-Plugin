@@ -104,33 +104,6 @@
           }
         }
       },
-      "OsuMemoryDataProvider/0.10.3": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.CSharp": "4.7.0",
-          "ProcessMemoryDataFinder": "0.8.5",
-          "System.Data.DataSetExtensions": "4.5.0"
-        },
-        "compile": {
-          "lib/net5.0/OsuMemoryDataProvider.dll": {}
-        },
-        "runtime": {
-          "lib/net5.0/OsuMemoryDataProvider.dll": {}
-        }
-      },
-      "ProcessMemoryDataFinder/0.8.5": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.CSharp": "4.7.0",
-          "System.Data.DataSetExtensions": "4.5.0"
-        },
-        "compile": {
-          "lib/net5.0/ProcessMemoryDataFinder.dll": {}
-        },
-        "runtime": {
-          "lib/net5.0/ProcessMemoryDataFinder.dll": {}
-        }
-      },
       "SharpCompress/0.23.0": {
         "type": "package",
         "dependencies": {
@@ -208,22 +181,6 @@
             "assetType": "runtime",
             "rid": "win"
           }
-        }
-      },
-      "System.Reactive/6.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/net6.0/System.Reactive.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net6.0/System.Reactive.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "buildTransitive/net6.0/_._": {}
         }
       },
       "System.Runtime.CompilerServices.Unsafe/4.5.2": {
@@ -518,36 +475,6 @@
         "packageIcon.png"
       ]
     },
-    "OsuMemoryDataProvider/0.10.3": {
-      "sha512": "HNi8OwMXzHJlfDOoPIrLSOd/UpU6q7JqDqbCDxuegyLV7Jn7mMzLbNGox8s/3cKwfY3kiqC1ZTaNnjr9zL0H8Q==",
-      "type": "package",
-      "path": "osumemorydataprovider/0.10.3",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net471/OsuMemoryDataProvider.dll",
-        "lib/net472/OsuMemoryDataProvider.dll",
-        "lib/net5.0/OsuMemoryDataProvider.dll",
-        "lib/netcoreapp3.1/OsuMemoryDataProvider.dll",
-        "osumemorydataprovider.0.10.3.nupkg.sha512",
-        "osumemorydataprovider.nuspec"
-      ]
-    },
-    "ProcessMemoryDataFinder/0.8.5": {
-      "sha512": "wuQHspGi7+0zW8odh0JazogQPakTEI0Iqh+5rnNzbkO9ymGSZeQSpm0Zt5QFeK8g3unq1uYVyLB66QhrMYSPcw==",
-      "type": "package",
-      "path": "processmemorydatafinder/0.8.5",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net471/ProcessMemoryDataFinder.dll",
-        "lib/net472/ProcessMemoryDataFinder.dll",
-        "lib/net5.0/ProcessMemoryDataFinder.dll",
-        "lib/netcoreapp3.1/ProcessMemoryDataFinder.dll",
-        "processmemorydatafinder.0.8.5.nupkg.sha512",
-        "processmemorydatafinder.nuspec"
-      ]
-    },
     "SharpCompress/0.23.0": {
       "sha512": "HBbT47JHvNrsZX2dTBzUBOSzBt+EmIRGLIBkbxcP6Jef7DB4eFWQX5iHWV3Nj7hABFPCjISrZ8s0z72nF2zFHQ==",
       "type": "package",
@@ -723,34 +650,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Reactive/6.0.0": {
-      "sha512": "31kfaW4ZupZzPsI5PVe77VhnvFF55qgma7KZr/E0iFTs6fmdhhG8j0mgEx620iLTey1EynOkEfnyTjtNEpJzGw==",
-      "type": "package",
-      "path": "system.reactive/6.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "build/net6.0-windows10.0.19041/_._",
-        "build/net6.0/_._",
-        "buildTransitive/net6.0-windows10.0.19041/_._",
-        "buildTransitive/net6.0/_._",
-        "icon.png",
-        "lib/net472/System.Reactive.dll",
-        "lib/net472/System.Reactive.xml",
-        "lib/net6.0-windows10.0.19041/System.Reactive.dll",
-        "lib/net6.0-windows10.0.19041/System.Reactive.xml",
-        "lib/net6.0/System.Reactive.dll",
-        "lib/net6.0/System.Reactive.xml",
-        "lib/netstandard2.0/System.Reactive.dll",
-        "lib/netstandard2.0/System.Reactive.xml",
-        "lib/uap10.0.18362/System.Reactive.dll",
-        "lib/uap10.0.18362/System.Reactive.pri",
-        "lib/uap10.0.18362/System.Reactive.xml",
-        "readme.md",
-        "system.reactive.6.0.0.nupkg.sha512",
-        "system.reactive.nuspec"
-      ]
-    },
     "System.Runtime.CompilerServices.Unsafe/4.5.2": {
       "sha512": "wprSFgext8cwqymChhrBLu62LMg/1u92bU+VOwyfBimSPVFXtsNqEWC92Pf9ofzJFlk4IHmJA75EDJn1b2goAQ==",
       "type": "package",
@@ -899,9 +798,7 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "OsuMemoryDataProvider >= 0.10.3",
-      "StreamCompanionTypes >= 9.0.0",
-      "System.Reactive >= 6.0.0"
+      "StreamCompanionTypes >= 9.0.0"
     ]
   },
   "packageFolders": {
@@ -911,11 +808,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj",
-      "projectName": "indicator",
-      "projectPath": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\indicator.csproj",
+      "projectUniqueName": "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\Indicator.csproj",
+      "projectName": "Indicator",
+      "projectPath": "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\Indicator.csproj",
       "packagesPath": "C:\\Users\\promp\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\promp\\OneDrive\\เอกสาร\\GitHub\\SC-Indicator-Plugin\\obj\\",
+      "outputPath": "C:\\Users\\promp\\OneDrive\\Desktop\\Indicator-dev\\Indicator\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -943,23 +840,20 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
       "net6.0-windows7.0": {
         "targetAlias": "net6.0-windows",
         "dependencies": {
-          "OsuMemoryDataProvider": {
-            "target": "Package",
-            "version": "[0.10.3, )"
-          },
           "StreamCompanionTypes": {
             "target": "Package",
             "version": "[9.0.0, )"
-          },
-          "System.Reactive": {
-            "target": "Package",
-            "version": "[6.0.0, )"
           }
         },
         "imports": [
@@ -981,7 +875,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303\\RuntimeIdentifierGraph.json"
       }
     }
   }

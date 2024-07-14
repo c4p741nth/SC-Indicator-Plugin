@@ -1,38 +1,7 @@
-﻿using StreamCompanionTypes.Enums;
-using StreamCompanionTypes.Interfaces.Sources;
-using StreamCompanionTypes.Interfaces;
-using StreamCompanionTypes.Interfaces.Services;
-
-namespace indicator
+﻿namespace Indicator
 {
     partial class SettingsUserControl
     {
-        public class IndicatorPlugin : IPlugin, ISettingsSource
-        {
-            public string Description => "This is EARLY/LATE in-game overlay";
-            public string Name => "Indicator Plugin";
-            public string Author => "C4P741N";
-            public string Url => "github.com/c4p741nth";
-            public string SettingGroup => "Indicator";
-            private SettingsUserControl SettingsUserControl;
-            public IndicatorPlugin(ILogger logger)
-            {
-                logger.Log("Message from { Name}!", LogLevel.Trace);
-            }
-
-            public void Free()
-            {
-                SettingsUserControl?.Dispose();
-            }
-
-            public object GetUiSettings()
-            {
-                if (SettingsUserControl == null || SettingsUserControl.IsDisposed)
-                    SettingsUserControl = new SettingsUserControl();
-
-                return SettingsUserControl;
-            }
-        }
         /// <summary> 
         /// Required designer variable.
         /// </summary>
@@ -62,6 +31,7 @@ namespace indicator
             components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
         }
+
         #endregion
     }
 }

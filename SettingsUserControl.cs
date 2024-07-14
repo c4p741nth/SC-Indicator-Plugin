@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace indicator
+namespace Indicator
 {
     public partial class SettingsUserControl : UserControl
     {
