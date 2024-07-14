@@ -87,11 +87,13 @@ namespace Indicator
 
         private void InitializeTokens()
         {
-            var tokenNames = new[] { "averageHitErrors", "earlyCount", "perfectCount", "lateCount", "earlyMs", "lateMs", "indicatorEarly", "indicatorLate" };
+            var tokenNames = new[] { "averageHitErrors", "earlyCount", "perfectCount", "lateCount", "earlyMs", "lateMs" };
             foreach (var tokenName in tokenNames)
             {
-                tokenSetter(tokenName, "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+                tokenSetter(tokenName, "0", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
             }
+            tokenSetter("indicatorEarly", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
+            tokenSetter("indicatorLate", "", TokenType.Live, null, null, OsuStatus.Playing | OsuStatus.Watching | OsuStatus.ResultsScreen);
         }
 
         private void OnHitErrorsChanged(object? sender, IToken e)
@@ -147,12 +149,7 @@ namespace Indicator
 
         private static string GetIndicatorValue(int hitError, double threshold, ref int earlyCount, ref int lateCount, ref int perfectCount)
         {
-            if (hitError >= -threshold && hitError <= threshold)
-            {
-                perfectCount++;
-                return "";
-            }
-            else if (hitError > threshold)
+            if (hitError > threshold)
             {
                 lateCount++;
                 return "LATE";
@@ -161,6 +158,11 @@ namespace Indicator
             {
                 earlyCount++;
                 return "EARLY";
+            }
+            else if (hitError >= -threshold && hitError <= threshold)
+            {
+                perfectCount++;
+                return "PERFECT";
             }
             else
             {
@@ -180,12 +182,12 @@ namespace Indicator
             {
                 if (hitError < 0)
                 {
-                    earlyMs = $"-{-hitError} ms";
+                    earlyMs = $"{-Math.Abs(perfectThreshold + hitError)}";
                     indicatorEarly = "EARLY";
                 }
                 else
                 {
-                    lateMs = $"+{hitError} ms";
+                    lateMs = $"+{hitError - perfectThreshold}";
                     indicatorLate = "LATE";
                 }
             }
