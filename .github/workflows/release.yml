@@ -1,0 +1,36 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - "v*" # triggers on tags like v1.0.0, v1.2.3
+
+jobs:
+    build-and-release:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: "8.0.x"
+
+            - name: Build (Release)
+              run: dotnet build --configuration Release -p:OutputPath=${{ github.workspace
+                  }}\dist
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v2
+              with:
+                  name: Release ${{ github.ref_name }}
+                  body: |
+                      ## SC-Indicator-Plugin ${{ github.ref_name }}
+
+                      See [commits](https://github.com/${{ github.repository }}/commits/${{ github.ref_name }}) for changes.
+                  files: |
+                      dist/Indicator.dll
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
